@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use GuzzleHttp\Middleware;
 use Illuminate\Routing\Events\RouteMatched;
 use Illuminate\Support\Facades\Route;
@@ -15,9 +16,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/','AuthController@login')->name('engkid.login');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::post('/home','UserController@postLogin')->name('engkid.home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::post('/home/result_search', [HomeController::class, 'result_search'])->name('home.result_search');
+Route::get('/home/translated', [HomeController::class, 'translated'])->name('home.translated');
+Route::get('/home/select_option_language/{id}', [HomeController::class, 'select_option_language'])->name('home.select_option_language');
+
+//Route::put('/home','UserController@postLogin')->name('engkid.home');
 
 // Route::post('/home','UserController@postLogin')->name('engkid.home');
 
@@ -68,7 +74,7 @@ Route::get('/camera','CameraController@camera')->name('engkid.camera');
 
 // Route::group(['middleware' => 'guest'], function(){
 //     Route::match(['get', 'post'], '/login','Usercontroller@login');
-    
+
 // });
 
 // Route::group(['middleware' => 'auth'], function(){
