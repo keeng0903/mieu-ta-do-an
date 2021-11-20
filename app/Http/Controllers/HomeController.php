@@ -16,16 +16,27 @@ class HomeController extends Controller
     function result_search(Request $request)
     {
         if ($request->get('query')) {
+            $type = $request->get('type');
+
+            if ($type == 'en') {
+                $type_language = 'en';
+            } else{
+                $type_language = 'vn';
+            }
+
             $query = $request->get('query');
             $data = DB::table('languages')
-                ->where('vn', 'LIKE', "%{$query}%")
+                ->where($type_language, 'LIKE', "%{$query}%")
                 ->limit(5)
                 ->orderByRaw('language_id')
                 ->get();
             $output = '<ul class="dropdown-menu" style="display:block; position:relative">';
             foreach ($data as $row) {
-                $output .= '<li style="width: 300px;font-size: large"><a href="#">' . $row->vn . '</a></li>
-       ';
+                if ($type == 'vn'){
+                    $output .= '<li style="width: 300px;font-size: large"><a href="#">' . $row->vn . '</a></li>';
+                }else{
+                    $output .= '<li style="width: 300px;font-size: large"><a href="#">' . $row->en . '</a></li>';
+                }
             }
             $output .= '</ul>';
             echo $output;

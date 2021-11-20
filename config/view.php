@@ -46,4 +46,6 @@ return [
 
     'expires' => env('VIEW_CHECK_EXPIRATION', true),
 
+    'LANGUAGE_TYPE_VIETNAMESE' => 'vn',
+    'LANGUAGE_TYPE_ENGLISH' => 'en'
 ];

@@ -29,7 +29,9 @@
                         <label for ="from"> From</label>
 
                         <select name="from" id="output-language">
-
+                            @foreach($option_languages as $option_language)
+                                <option value="{{$option_language->type}}">{{ucfirst($option_language->name)}}</option>
+                            @endforeach
                         </select> </div>
                     <div class="form-group">
                         <textarea name="translated"  class="form-control" id="translated" placeholder="Translated text will be here"></textarea>
@@ -45,14 +47,19 @@
 </section>
 <script>
     $(document).ready(function () {
+
         $('#original').keyup(function () {
+            var type
+            $('#input-language').change(function() {
+                type = this.value;
+            });
             var query = $(this).val();
             if (query != '') {
                 var _token = $('input[name="_token"]').val();
                 $.ajax({
                     url: "{{ route('home.result_search') }}",
-                    method: "POST",
-                    data: {query: query, _token: _token},
+                    method: "GET",
+                    data: {query: query, type: type, _token: _token},
                     success: function (data) {
                         $('#result_search').fadeIn();
                         $('#result_search').html(data);
@@ -60,6 +67,7 @@
                 });
             }
         });
+
 
         $(document).on('click', 'li', 'a', function () {
             $('#original').val($(this).text());
@@ -76,24 +84,6 @@
             });
         });
 
-    });
-    $(document).ready(function () {
-        $('#input-language').on('change', function () {
-            let id = $(this).val();
-            $('#output-language').empty();
-            $.ajax({
-                type: 'GET',
-                url: '{{ url('home/select_option_language') }}/' + id,
-                success: function (response) {
-                    var response = JSON.parse(response);
-                    console.log(response);
-                    $('#output-language').empty();
-                    response.forEach(element => {
-                        $('#sub_category').append(`<option value="${element['language_id']}">${element['name']}</option>`);
-                    });
-                }
-            });
-        });
     });
 </script>
 @endsection

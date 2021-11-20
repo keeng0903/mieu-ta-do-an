@@ -18,10 +18,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
-Route::post('/home/result_search', [HomeController::class, 'result_search'])->name('home.result_search');
-Route::get('/home/translated', [HomeController::class, 'translated'])->name('home.translated');
-Route::get('/home/select_option_language/{id}', [HomeController::class, 'select_option_language'])->name('home.select_option_language');
+Route::GET('/home', [HomeController::class, 'index'])->name('home');
+Route::GET('/home/result_search', [HomeController::class, 'result_search'])->name('home.result_search');
+Route::GET('/home/translated', [HomeController::class, 'translated'])->name('home.translated');
+Route::GET('/home/select_option_language/{id}', [HomeController::class, 'select_option_language'])->name('home.select_option_language');
 
 //Route::put('/home','UserController@postLogin')->name('engkid.home');
 
