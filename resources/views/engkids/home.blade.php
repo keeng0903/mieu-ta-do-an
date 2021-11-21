@@ -37,10 +37,7 @@
                     </div>
                 </div>
                 <div class="col-6 decription-word-vocabulary">
-                    @foreach($decription as $item)
-                        <a href="{{ route('engkid.detail',['id' => $item->id]) }}"><p>{{$item->word}}</p></a>
-                        <hr>
-                    @endforeach
+
                 </div>
                 <div class="col-6 contributions-left">
                     <div class="contributions-left-img">

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 class HomeController extends Controller
 {
     public function index(){
-        $lang  = DB::table('type_languages')->get();
+        $lang  = DB::table('type_languages')->orderByRaw('language_type_id')->get();
         $data['option_languages'] = $lang;
         return view('engkids.homeTranslate', $data);
     }
@@ -16,27 +16,16 @@ class HomeController extends Controller
     function result_search(Request $request)
     {
         if ($request->get('query')) {
-            $type = $request->get('type');
-
-            if ($type == 'en') {
-                $type_language = 'en';
-            } else{
-                $type_language = 'vn';
-            }
-
             $query = $request->get('query');
+            $type = $request->get('type');
             $data = DB::table('languages')
-                ->where($type_language, 'LIKE', "%{$query}%")
+                ->Where("{$type}", 'LIKE', "%{$query}%")
                 ->limit(5)
                 ->orderByRaw('language_id')
                 ->get();
             $output = '<ul class="dropdown-menu" style="display:block; position:relative">';
             foreach ($data as $row) {
-                if ($type == 'vn'){
-                    $output .= '<li style="width: 300px;font-size: large"><a href="#">' . $row->vn . '</a></li>';
-                }else{
-                    $output .= '<li style="width: 300px;font-size: large"><a href="#">' . $row->en . '</a></li>';
-                }
+                    $output .= '<li style="width: 300px;font-size: large"><a href="#">' . $row->{$type} . '</a></li>';
             }
             $output .= '</ul>';
             echo $output;
@@ -46,20 +35,33 @@ class HomeController extends Controller
     function translated(Request $request)
     {
         if ($request->get('translated')) {
+            $type_output = $request->get('type_output');
+            $type_input = $request->get('type_input');
             $translated = $request->get('translated');
             $data_translated = DB::table('languages')
-                ->where('vn', '=', "$translated")
+                ->where("{$type_input}", '=', "$translated")
+                ->limit(1)
                 ->get();
             $output = '';
             foreach ($data_translated as $row) {
-                $output .=$row->en;
+                $output .=$row->{$type_output};
             }
             echo $output;
         }
     }
 
-    public function select_option_language($id)
+    public function output_lang(Request $request)
     {
-        echo json_encode(DB::table('type_languages')->where('language_id','!=', $id)->get());
+        if ($request->get('type_language')) {
+            $type = $request->get('type_language');
+            $lang_type = DB::table('type_languages')
+                ->where('type', '!=', "$type")
+                ->get();
+            $output = '';
+            foreach ($lang_type as $row) {
+                $output .= '<option value="' . $row->type . '">' . $row->name . '</option>';
+            }
+            echo $output;
+        }
     }
 }

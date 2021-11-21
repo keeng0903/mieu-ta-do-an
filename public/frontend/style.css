@@ -6,9 +6,20 @@ Primary style
 *, *::after, *::before {
     box-sizing: border-box;
 }
+.padding-result{
+    padding: 10px;
+}
 
+.button-result{
+    float:left;
+    padding-right: 1px;
+    color: black;
+}
+.text-color{
+    color: #495057;
+    font-style: oblique;
+}
 a {
-    color: #89253e;
     text-decoration: none;
 }
 
