@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Translate</title>
@@ -12,8 +11,8 @@
     @include('engkids.frontend.css')
 </head>
 <body>
-<div id="container">
-    <div class="row" style="margin-top: 5%">
+<div id="container preloading">
+       <div class="row" style="margin-top: 5%">
         @include('engkids.frontend.header')
         @include('engkids.banner')
     </div>
@@ -26,7 +25,9 @@
         </div>
     </div>
 </div>
-
+<div class="loader">
+    <span class="fas fa-spinner xoay icon"></span>
+</div>
 @include('engkids.frontend.footer')
 
 @include('engkids.frontend.js')

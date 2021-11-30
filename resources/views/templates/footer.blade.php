@@ -20,29 +20,6 @@
 <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8/dist/teachablemachine-image.min.js"></script>
 
 <script type="text/javascript">
-    // window.onscroll = function() {
-    //     myFunction()
-    // };
-    // var header = document.getElementById("myHeader");
-    // var sticky = header.offsetTop;
-
-    // function myFunction() {
-    //     if (window.pageYOffset > sticky) {
-    //         header.classList.add("sticky");
-    //         header
-    //     } else {
-    //         header.classList.remove("sticky");
-    //     }
-    // }
-
-    // var today = new Date();
-    // var date = today.getFullYear();
-
-    // document.getElementById("years-footer").innerHTML = date;
-
-
-
-    
 
      const URL = "{{asset('asset/js')}}";
 
@@ -58,7 +35,7 @@
             // or files from your local hard drive
             // Note: the pose library adds "tmImage" object to your window (window.tmImage)
             model = await tmImage.load(modelURL, metadataURL);
-           
+
             maxPredictions = model.getTotalClasses();
             console.log(maxPredictions);
 
@@ -85,7 +62,7 @@
             //     labelContainer.appendChild(document.createElement("div"));
             // }
         }
-    
+
 
         async function loop() {
             webcam.update(); // update the webcam frame
@@ -119,7 +96,7 @@
 
         }
 
-    
+
 </script>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->

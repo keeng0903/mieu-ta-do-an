@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdminLangController;
+use App\Http\Controllers\AdminUserController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use GuzzleHttp\Middleware;
 use Illuminate\Routing\Events\RouteMatched;
@@ -19,10 +23,18 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::GET('/home', [HomeController::class, 'index'])->name('home');
-Route::GET('/home/result_search', [HomeController::class, 'result_search'])->name('home.result_search');
-Route::GET('/home/translated', [HomeController::class, 'translated'])->name('home.translated');
-Route::GET('/home/select_option_language/{id}', [HomeController::class, 'select_option_language'])->name('home.select_option_language');
-Route::GET('/home/output_lang', [HomeController::class, 'output_lang'])->name('home.output_lang');
+Route::group(['as' => 'home.','prefix' => 'home'], function (){
+    Route::GET('/result_search', [HomeController::class, 'result_search'])->name('result_search');
+    Route::GET('/translated', [HomeController::class, 'translated'])->name('translated');
+    Route::GET('/input_translated', [HomeController::class, 'input_translated'])->name('input_translated');
+    Route::GET('/select_option_language/{id}', [HomeController::class, 'select_option_language'])->name('select_option_language');
+    Route::GET('/output_lang', [HomeController::class, 'output_lang'])->name('output_lang');
+    Route::GET('/lang_details', [HomeController::class, 'lang_details'])->name('lang_details');
+    Route::GET('/check_exist_email', [AuthController::class, 'check_exist_email'])->name('check_exist_email');
+    Route::GET('/insert_history', [HomeController::class, 'insert_history'])->name('insert_history');
+    Route::GET('/histories', [HomeController::class, 'histories'])->name('histories');
+});
+
 
 //Route::put('/home','UserController@postLogin')->name('engkid.home');
 
@@ -30,9 +42,6 @@ Route::GET('/home/output_lang', [HomeController::class, 'output_lang'])->name('h
 
 
 // Route::get('/home','HomeController@index')->name('engkid.home');
-
-
-Route::get('/logout', 'UserController@logout')->name('engkid.logout');
 
 
 // Route::get('/admin', 'UserController@admin');
@@ -51,9 +60,35 @@ Route::get('/search','SearchController@search')->name('engkid.search');
 
 Route::get('/search/{id}','SearchController@detail')->name('engkid.detail');
 
+Route::get('/camera','CameraController@camera')->name('camera');
 
+Route::group(['middleware' => ['check_login_admin'], 'as' => 'admin.', 'prefix' => 'admin'], function () {
+    Route::get('/login', [AdminController::class, 'login'])->name('login');
+    Route::POST('/confirm', [AdminController::class, 'confirm'])->name('confirm');
+    Route::get('/dashboard', [AdminController::class, 'show_dashboard'])->name('dashboard');
+    Route::get('/logout', [AdminController::class, 'logout'])->name('logout');
 
-Route::get('/camera','CameraController@camera')->name('engkid.camera');
+    //manage user
+    Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
+        Route::get('/list', [AdminUserController::class, 'index'])->name('list');
+
+    });
+
+    //manage language
+    Route::group(['prefix' => 'lang', 'as' => 'lang.'], function () {
+        Route::get('/list', [AdminLangController::class, 'index'])->name('list');
+
+    });
+});
+
+//user
+Route::group(['middleware' => ['check_login_user'], 'as' => 'user.', 'prefix' => 'user'], function () {
+    Route::get('/login', [AuthController::class, 'login'])->name('login');
+    Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::GET('/confirm', [AuthController::class, 'confirm'])->name('confirm');
+    Route::GET('/confirm-register', [AuthController::class, 'confirm_register'])->name('confirm-register');
+
+});
 
 
 // Route::get('/camera','CameraController@searchdetect')->name('engkid.camera');
