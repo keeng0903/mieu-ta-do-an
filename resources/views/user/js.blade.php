@@ -1,15 +1,19 @@
 <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
 <script  src="{{asset('user/script.js')}}"></script>
 <script>
+    function swalmessage(message){
+        swal(message, {
+            buttons: false,
+            timer: 2000
+        });
+    }
+
     $(document).ready(function () {
         $('#submit-register').on('click', function () {
             let name = document.forms["register-user"]["name"].value;
 
             if (name == "") {
-                swal("name không được rỗng", {
-                    buttons: false,
-                    timer: 2000
-                });
+                swalmessage("name không được rỗng")
                 return false;
             }
 

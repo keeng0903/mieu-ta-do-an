@@ -1,4 +1,6 @@
 !-- jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
 <script src="{{asset('admin/plugins/jquery/jquery.min.js')}}"></script>
 <!-- jQuery UI 1.11.4 -->
 <script src="{{asset('admin/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
@@ -53,6 +55,12 @@
 <!-- Page specific script -->
 {{--//table--}}
 <script>
+    $(window).on('load', function(event) {
+        $('body').removeClass('preloading');
+        // $('.load').delay(1000).fadeOut('fast');
+        $('.loader').delay(500).fadeOut('fast');
+    });
+
     $(function () {
         $("#example1").DataTable({
             "responsive": true, "lengthChange": false, "autoWidth": false,
@@ -69,3 +77,82 @@
         });
     });
 </script>
+{{--swall--}}
+<script src ="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script >
+{{--end swall--}}
+
+<script>
+    function swalMessageNotButton(message) {
+        swal(message, {
+            buttons: false,
+            timer: 2000
+        });
+    }
+
+    function redirectListUser() {
+        document.location.href = "{{ route('admin.user.list') }}";
+    }
+
+    function redirectReload() {
+        document.location.reload();
+    }
+
+    function redirect(url) {
+        document.location.href = url;
+    }
+
+    function deleteColumn(message){
+        swal(message, {
+            buttons: {
+                catch: {
+                    text: "OK",
+                    value: "redirect",
+                }
+            },
+        })
+            .then((value) => {
+                switch (value) {
+                    case "redirect":
+                        redirectReload();
+                        break;
+                }
+            });
+    }
+</script>
+
+@if (session('status'))
+    <script>
+        swal("{{ session('status') }}", {
+            button: false,
+        });
+        swal("{{ session('status') }}", {
+            buttons: {
+                cancel: "Huỷ",
+                option: {
+                    text: "OK!",
+                    value: "option",
+                },
+            },
+        })
+            .then((value) => {
+                switch (value) {
+                    case "option":
+                        redirect("{{ session('url') }}")
+                        break;
+                }
+            });
+    </script>
+@endif
+
+@include('admin.user.js.addJs')
+
+@include('admin.user.js.editJs')
+
+@include('admin.user.js.deleteJs')
+
+@include('admin.lang.js.addJs')
+
+@include('admin.lang.js.editJs')
+
+@include('admin.lang.js.deleteJs')
+

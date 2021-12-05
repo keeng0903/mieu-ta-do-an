@@ -17,7 +17,13 @@
 
         <!-- Main content -->
         <section class="content">
+            <form action="">
             <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <a type="button" href="{{route('admin.lang.add')}}" class="btn btn-block btn-outline-primary">ADD NEW</a>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
@@ -38,7 +44,7 @@
                                         <th>Tiếng Anh</th>
                                         <th>Ngày tạo</th>
                                         <th>Ngày cập nhật</th>
-                                        <th>Chi tiết</th>
+                                        <th></th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -50,7 +56,18 @@
                                                 <td>{{$language->en}}</td>
                                                 <td>{{$language->created_at}}</td>
                                                 <td>{{$language->updated_at}}</td>
-                                                <td></td>
+                                                <td class="project-actions text-right">
+                                                    <a class="btn btn-info btn-sm" href="{{route('admin.lang.edit', $language->language_id)}}">
+                                                        <i class="fas fa-pencil-alt">
+                                                        </i>
+                                                        Edit
+                                                    </a>
+                                                    <a class="btn btn-danger btn-sm" id="delete-lang" onclick="deleteRowLang({{$language->language_id}})" href="javascript:void(0)">
+                                                        <i class="fas fa-trash">
+                                                        </i>
+                                                        Delete
+                                                    </a>
+                                                </td>
                                             </tr>
                                         @endforeach
                                     @endif
@@ -65,6 +82,7 @@
                 </div>
                 <!-- /.row -->
             </div>
+            </form>
             <!-- /.container-fluid -->
         </section>
         <!-- /.content -->

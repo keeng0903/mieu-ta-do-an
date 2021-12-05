@@ -18,7 +18,7 @@
 <link rel="stylesheet" href="{{asset('admin/plugins/daterangepicker/daterangepicker.css')}}">
 <!-- summernote -->
 <link rel="stylesheet" href="{{asset('admin/plugins/summernote/summernote-bs4.min.css')}}">
-
+<link rel="stylesheet" href="{{asset('admin/style.css')}}">
 {{--//table--}}
 <!-- DataTables -->
 <link rel="stylesheet" href="{{asset('admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">

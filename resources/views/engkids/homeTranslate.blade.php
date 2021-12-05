@@ -8,6 +8,26 @@
         @else
         <h3>Write and click <b>TRANSLATE</b></h3>
         @endif
+        <div class="row">
+            <div class="col-md-6">
+                <marquee>
+                    <h3><i>Từ gợi ý hôm nay :
+                            @foreach($randomEns as $randomEn)
+                                <a href="" style="color: white">{{$randomEn->en}}</a>,
+                            @endforeach
+                        </i></h3>
+                </marquee>
+            </div>
+            <div class="col-md-6">
+                <marquee>
+                    <h3><i>Từ gợi ý hôm nay :
+                            @foreach($randomEns as $randomEn)
+                                <a href="" style="color: white">{{$randomEn->en}}</a>,
+                            @endforeach
+                        </i></h3>
+                </marquee>
+            </div>
+        </div>
     </div>
     <div class="contact-section">
         <div class="container">

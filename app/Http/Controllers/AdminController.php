@@ -44,7 +44,16 @@ class AdminController extends Controller
      */
     public function show_dashboard(Request $request)
     {
-        return view('admin.dashboard');
+        $data['languages'] = DB::table('languages')
+            ->count();
+        $data['accountAdmin'] = DB::table('users')
+            ->where('type', TYPE_USER_ADMIN)
+            ->where('type', TYPE_USER_EDITOR)
+            ->count();
+        $data['accountUser'] = DB::table('users')
+            ->where('type', TYPE_USER_NORMAL)
+            ->count();
+        return view('admin.dashboard', $data);
     }
 
     /**
@@ -52,9 +61,9 @@ class AdminController extends Controller
      */
     public function logout()
     {
-        Session()->put('email', NULL);
+        Session()->put('email', null);
         Session()->put('name', null);
-        return view('admin.login');
+        return redirect('/');
 
     }
 }

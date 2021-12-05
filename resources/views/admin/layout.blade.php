@@ -23,10 +23,13 @@
     @include('admin.aside')
 
 </div>
-
+<div class="loader">
+    <span class="fas fa-spinner xoay icon"></span>
+</div>
 @include('admin.footer')
 
 @include('admin.js')
+
 </body>
 
 </html>

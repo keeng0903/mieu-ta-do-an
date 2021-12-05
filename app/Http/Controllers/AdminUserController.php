@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use mysql_xdevapi\Exception;
 
 class AdminUserController extends Controller
 {
@@ -15,8 +16,9 @@ class AdminUserController extends Controller
     public function index()
     {
         $data = [];
-        $data['users'] = DB::table('users')->get();
-
+        $data['users'] = DB::table('users')
+            ->orderBy('id','desc')
+            ->get();
         return view('admin.user.list', $data);
     }
 
@@ -27,7 +29,7 @@ class AdminUserController extends Controller
      */
     public function create(Request $request)
     {
-        return view('admin.user.create');
+        return view('admin.user.add');
     }
 
     /**
@@ -45,10 +47,16 @@ class AdminUserController extends Controller
             'password' => md5($request->password),
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s"),
-            'status' => STATUS_ACTIVE,
-            'type' => TYPE_USER_NORMAL
+            'status' => $request->status,
+            'type' => $request->type
         ];
-        DB::table('users')->insert($user);
+        $id = DB::table('users')->insertGetId($user);
+        if (!empty($id)) {
+            $response = true;
+        } else {
+            $response = false;
+        }
+        echo json_encode($response);
     }
 
     /**
@@ -59,7 +67,11 @@ class AdminUserController extends Controller
      */
     public function show($id)
     {
-        //
+        $data = [];
+        $data['user'] = DB::table('users')
+            ->where('id', "$id")
+            ->first();
+        return view('admin.user.edit', $data);
     }
 
     /**
@@ -71,33 +83,37 @@ class AdminUserController extends Controller
     public function edit($id)
     {
         $data = [];
-        $data['users'] = DB::table('users')
+        $data['user'] = DB::table('users')
             ->where('id',$id)
             ->get();
         return view('admin.user.edit', $data);
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
         $user = [
-            'id' => $request->user_id,
             'name' => $request->name,
-            'email' => $request->email,
-            'password' => md5($request->password),
-            'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s"),
-            'status' => STATUS_ACTIVE,
-            'type' => TYPE_USER_NORMAL
+            'status' => $request->status,
+            'type' => $request->type,
         ];
-        DB::table('users')->update($user);
+
+        if (!empty($request->password)) {
+            $user['password'] = md5($request->password);
+        }
+
+        $updated = DB::table('users')
+            ->where('id', $request->id)
+            ->update($user);
+        if ($updated) {
+            $response = true;
+        } else {
+            $response = false;
+        }
+        echo json_encode($response);
     }
 
     /**
@@ -109,9 +125,18 @@ class AdminUserController extends Controller
     public function destroy($id)
     {
         //
-        DB::table('users')
+        $deleted = DB::table('users')
             ->where('id', $id)
             ->delete();
-        return redirect('admin/user/list');
+
+        if ($deleted) {
+            DB::table('history')
+                ->where('user_id',$id)
+                ->delete();
+            $response = true;
+        } else {
+            $response = false;
+        }
+        echo json_encode($response);
     }
 }

@@ -25,7 +25,7 @@ class AdminLangController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.lang.add');
     }
 
     /**
@@ -36,7 +36,36 @@ class AdminLangController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $lang = [
+            'language_id' => null,
+            'vn' => $request->vn,
+            'en' => $request->en,
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s"),
+        ];
+
+        $id = DB::table('languages')
+            ->insertGetId($lang);
+
+        if ($id && $request->lang){
+            foreach ($request->lang as $lang){
+                $lang_des[] = null;
+                if ($lang['title']){
+                    $lang_des = [
+                        'language_description_id' => null,
+                        'language_id' => $id,
+                        'title' => $lang['title'],
+                        'short_description' => $lang['short_description'],
+                        'description' => $lang['description'],
+                        'type_description' => $lang['type_description'],
+                    ];
+                    DB::table('language_descriptions')
+                        ->insert($lang_des);
+                }
+            }
+            return back()->with('status','Thêm từ vựng thành công');
+        }
+        return back()->with('status','Thêm từ vựng thành công');
     }
 
     /**
@@ -47,7 +76,7 @@ class AdminLangController extends Controller
      */
     public function show($id)
     {
-        //
+
     }
 
     /**
@@ -58,7 +87,17 @@ class AdminLangController extends Controller
      */
     public function edit($id)
     {
-        //
+        try {
+            $data['language'] = DB::table('languages')
+                ->where('language_id',$id)
+                ->first();
+            $data['language_descriptions'] = DB::table('language_descriptions')
+                ->where('language_id',$id)
+                ->get();
+            return view('admin.lang.edit', $data);
+        }catch (\Exception $exception){
+            return back()->with('status', 'Lỗi');
+        }
     }
 
     /**
@@ -70,7 +109,45 @@ class AdminLangController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            $deleted = DB::table('language_descriptions')
+                ->where('language_id', $id)
+                ->delete();
+            if ($deleted) {
+                $lang = [
+                    'vn' => $request->vn,
+                    'en' => $request->en,
+                    'updated_at' => date("Y-m-d H:i:s"),
+                ];
+
+                $updated = DB::table('languages')
+                    ->where('language_id', $id)
+                    ->update($lang);
+
+                if ($updated && $request->lang) {
+                    foreach ($request->lang as $lang) {
+                        $lang_des[] = null;
+                        if ($lang['title']) {
+                            $lang_des = [
+                                'language_description_id' => null,
+                                'language_id' => $id,
+                                'title' => $lang['title'],
+                                'short_description' => $lang['short_description'],
+                                'description' => $lang['description'],
+                                'type_description' => $lang['type_description'],
+                            ];
+                            DB::table('language_descriptions')
+                                ->insert($lang_des);
+                        }
+                    }
+                    return back()
+                        ->with('status', 'Cập nhật thành công! Bạn muốn sang danh sách ?')
+                        ->with('url', route('admin.lang.list'));
+                }
+            }
+        } catch (\Exception $exception) {
+            return back()->with('status', 'Lỗi không thể cập nhật');
+        }
     }
 
     /**
@@ -81,6 +158,20 @@ class AdminLangController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if ($id) {
+            DB::table('languages')
+                ->where('language_id', $id)
+                ->delete();
+            DB::table('language_descriptions')
+                ->where('language_id', $id)
+                ->delete();
+            DB::table('history')
+                ->where('language_id', $id)
+                ->delete();
+            $response = true;
+        } else {
+            $response = false;
+        }
+        echo json_encode($response);
     }
 }

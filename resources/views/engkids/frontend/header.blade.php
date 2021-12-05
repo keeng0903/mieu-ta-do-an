@@ -11,7 +11,7 @@
         <li><a href="{{route('user.login')}}" id="text-color-menu"><span></span>Đăng Nhập</a></li>
         @endif
         <li><a href="#0" id="text-color-menu" ><span>Lịch Sử</span></a></li>
-        <li><a href="{{route('camera')}}" id="text-color-menu"><span>Camera</span></a></li>
+        <li><a href="{{route('home.camera')}}" id="text-color-menu"><span>Camera</span></a></li>
         <li><a href="{{route('admin.login')}}" id="text-color-menu"><span>Login Admin</span></a></li>
     </ul>
 

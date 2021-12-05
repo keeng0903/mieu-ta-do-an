@@ -17,7 +17,13 @@
 
         <!-- Main content -->
         <section class="content">
+            <form action="" id="admin-list-user">
             <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <a type="button" href="{{route('admin.user.add')}}" class="btn btn-block btn-outline-primary">ADD NEW</a>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
@@ -38,6 +44,7 @@
                                         <th>email</th>
                                         <th>Loại</th>
                                         <th>Trạng Thái</th>
+                                        <th></th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -54,9 +61,21 @@
                                         <td>
                                             {{$user->status}}
                                         </td>
+                                        <td class="project-actions text-right">
+                                            <a class="btn btn-info btn-sm" href="{{route('admin.user.edit', $user->id)}}">
+                                                <i class="fas fa-pencil-alt">
+                                                </i>
+                                                Edit
+                                            </a>
+                                            <a class="btn btn-danger btn-sm" id="delete-user" onclick="deleteRow({{$user->id}})" href="javascript:void(0)" >
+                                                <i class="fas fa-trash">
+                                                </i>
+                                                Delete
+                                            </a>
+                                        </td>
                                     </tr>
                                     @endforeach
-                                        @endif
+                                    @endif
                                     </tbody>
                                 </table>
                             </div>
@@ -69,6 +88,7 @@
                 <!-- /.row -->
             </div>
             <!-- /.container-fluid -->
+            </form>
         </section>
         <!-- /.content -->
     </div>

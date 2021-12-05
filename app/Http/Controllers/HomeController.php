@@ -13,6 +13,10 @@ class HomeController extends Controller
     public function index(){
         $lang  = DB::table('type_languages')->orderByRaw('language_type_id')->get();
         $data['option_languages'] = $lang;
+        $data['randomEns'] = DB::table('languages')
+            ->inRandomOrder()
+            ->limit(6)
+            ->get('en');
         return view('engkids.homeTranslate', $data);
     }
 

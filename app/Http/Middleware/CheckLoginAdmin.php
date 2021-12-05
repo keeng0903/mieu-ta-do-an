@@ -18,7 +18,7 @@ class CheckLoginAdmin
     public function handle(Request $request, Closure $next)
     {
         if (!session()->has('email') && !in_array(Route::currentRouteName(), ['admin.login', 'admin.confirm'])){
-            return redirect('admin/login')->with('error','bạn chưa login');
+            return redirect('admin/login');
         }
 
         if (session()->has('email') && url('admin/login') == $request->url() && in_array(Route::currentRouteName(), ['admin.login', 'admin.confirm'])){

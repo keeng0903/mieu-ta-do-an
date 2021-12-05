@@ -7,13 +7,33 @@ use Illuminate\Support\Facades\DB;
 
 class CameraController extends Controller
 {
-    public function camera(){
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function camera()
+    {
         return view('engkids.camera');
     }
 
-    // public function searchdetect(Request $request){
+    /**
+     * @param Request $request
+     */
+    public function result_search_camera(Request $request)
+    {
+        if ($request->get('query')) {
+            $query = $request->get('query');
 
-    //     $searchdetect = DB::table('anh_viet')->where('word', 'LIKE', $request->word)->get();
-    //     return view('camera',compact('searchdetect'));
-    // }
+            $data = DB::table('languages')
+                ->Where('en', 'LIKE', "%{$query}%")
+                ->limit(5)
+                ->orderByRaw('language_id')
+                ->get();
+            $output = '<ul class="dropdown-menu" style="display:block;">';
+            foreach ($data as $row) {
+                $output .= '<li style="width: 600px;font-size: large"><a href="#">' . $row->en . '</a></li>';
+            }
+            $output .= '</ul>';
+            echo $output;
+        }
+    }
 }
