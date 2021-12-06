@@ -6,6 +6,7 @@ use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CameraController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UserController;
 use GuzzleHttp\Middleware;
 use Illuminate\Routing\Events\RouteMatched;
 use Illuminate\Support\Facades\Route;
@@ -29,13 +30,18 @@ Route::group(['as' => 'home.', 'prefix' => 'home'], function () {
     Route::GET('/translated', [HomeController::class, 'translated'])->name('translated');
     Route::GET('/input_translated', [HomeController::class, 'input_translated'])->name('input_translated');
     Route::GET('/output_lang', [HomeController::class, 'output_lang'])->name('output_lang');
+    Route::GET('/input_lang', [HomeController::class, 'input_lang'])->name('input_lang');
     Route::GET('/lang_details', [HomeController::class, 'lang_details'])->name('lang_details');
     Route::GET('/check_exist_email', [AuthController::class, 'check_exist_email'])->name('check_exist_email');
     Route::GET('/insert_history', [HomeController::class, 'insert_history'])->name('insert_history');
+    Route::GET('/suggestion_input', [HomeController::class, 'suggestion_input'])->name('suggestion_input');
+    Route::GET('/suggestion_output', [HomeController::class, 'suggestion_output'])->name('suggestion_output');
+
     Route::GET('/histories', [HomeController::class, 'histories'])->name('histories');
 //    camera
     Route::GET('/camera', [CameraController::class, 'camera'])->name('camera');
-    Route::GET('/result_search_camera', [CameraController::class, 'result_search_camera'])->name('result_search_camera');
+    Route::GET('/result_camera', [CameraController::class, 'result_camera'])->name('result_camera');
+
 });
 
 
@@ -84,5 +90,6 @@ Route::group(['middleware' => ['check_login_user'], 'as' => 'user.', 'prefix' =>
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::GET('/confirm', [AuthController::class, 'confirm'])->name('confirm');
     Route::GET('/confirm-register', [AuthController::class, 'confirm_register'])->name('confirm-register');
+    Route::GET('/history', [UserController::class, 'history'])->name('history');
 
 });

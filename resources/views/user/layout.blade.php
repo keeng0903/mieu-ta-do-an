@@ -13,6 +13,13 @@
 @yield('content1')
 <!-- partial -->
 @include('user.js')
-
+@if (session('status'))
+    <script>
+        swal("{{ session('status') }}", {
+            button: false,
+            timer: 2000
+        });
+    </script>
+@endif
 </body>
 </html>

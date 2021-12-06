@@ -3,8 +3,37 @@
 Primary style
 
 -------------------------------- */
+.swal-modal ,.bg-gradient-success{
+    background: #3a6186; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to left, #3a6186, #89253e); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to left, #3a6186, #89253e); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+#suggestions{
+    text-decoration: underline;
+}
+#suggestions:hover {
+    text-decoration: none;
+}
+.swal-text {
+    color: white;
+    font-family: "Arial", Sans-Serif;
+}
+
+.swal-button {
+    background-color: white;
+    color: black;
+}
 *, *::after, *::before {
     box-sizing: border-box;
+}
+#button-search{
+    background-color: black;
+}
+#font-text textarea {
+    font-family: 'Noto Serif';
+    font-size: 30px;
+    font-weight: bold;
 }
 .padding-result{
     padding: 10px;
@@ -15,13 +44,32 @@ Primary style
     overflow:scroll;
     position: absolute;
 }
+
+#scroll-history{
+    height:800px;
+    width:100%;
+    overflow:scroll;
+}
 #lang_details{
     height:400px;
     width:100%;
     overflow:scroll;
 }
 #text-color-menu{
-    color: black;
+    color: white;
+    background-color: #89253e;
+    font-weight: bold;
+    font-family: "Helvetica Neue", sans-serif;
+}
+#ul-header{
+    border-radius:30% 0 30% 30%;
+}
+.menu-top{
+    border-radius:30% 0 0 0;
+}
+
+.menu-bottom{
+    border-radius:0 0 30% 30%;
 }
 .button-result{
     float:left;
@@ -206,11 +254,7 @@ Stretchy Nav style - common to:
     height: 16px;
     top: 50%;
     right: 60px;
-    -webkit-transform: translateX(3px) translateY(-50%) scaleY(0);
-    -moz-transform: translateX(3px) translateY(-50%) scaleY(0);
-    -ms-transform: translateX(3px) translateY(-50%) scaleY(0);
-    -o-transform: translateX(3px) translateY(-50%) scaleY(0);
-    transform: translateX(3px) translateY(-50%) scaleY(0);
+
     background-color: #89253e;
 }
 .cd-stretchy-nav ul li:first-of-type a::after {
@@ -871,5 +915,201 @@ keyframes
         -o-transform: rotate(360deg);
         -webkit-transform: rotate(360deg);
         transform: rotate(360deg);
+    }
+}
+
+/*menu*/
+@import url("https://fonts.googleapis.com/css?family=Merriweather:900&display=swap");
+:root {
+    --color-primary: #002626;
+    --color-secondary: #F0F7EE;
+    --duration: 1s;
+    --nav-duration: calc(var(--duration) / 4);
+    --ease: cubic-bezier(0.215, 0.61, 0.355, 1);
+    --space: 1rem;
+    --font-primary: "Helvetica", sans-serif;
+    --font-heading: "Merriweather", serif;
+    --font-size: 1.125rem;
+    --line-height: 1.5;
+}
+
+.main-navigation-toggle {
+    position: fixed;
+    height: 1px;
+    width: 1px;
+    overflow: hidden;
+    clip: rect(1px, 1px, 1px, 1px);
+    white-space: nowrap;
+}
+.main-navigation-toggle + label {
+    position: fixed;
+    top: calc(var(--space) * 1.5);
+    right: calc(var(--space) * 2);
+    cursor: pointer;
+    z-index: 2;
+}
+
+.icon--menu-toggle {
+    --size: calc(1rem + 4vmin);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--size);
+    height: var(--size);
+    stroke-width: 6;
+}
+
+.icon-group {
+    transform: translateX(0);
+    transition: transform var(--nav-duration) var(--ease);
+}
+
+.icon--menu {
+    stroke: #89253e;
+
+}
+
+.icon--close {
+    stroke: var(--color-secondary);
+    transform: translateX(-100%);
+}
+
+.main-navigation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    transform: translateX(-100%);
+    transition: transform var(--nav-duration);
+    z-index: 1;
+}
+.main-navigation:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #3a6186; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to left, #3a6186 , #89253e); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to left, #3a6186 , #89253e); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    transform-origin: 0 50%;
+    z-index: -1;
+}
+.main-navigation ul {
+    font-size: 12vmin;
+    font-family: var(--font-heading);
+    width: 100%;
+}
+.main-navigation li {
+    --border-size: 1vmin;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+.main-navigation li:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: var(--border-size);
+    background-color: var(--color-secondary);
+    transform-origin: 0 50%;
+    transform: translateX(-100%) skew(15deg);
+}
+.main-navigation a {
+    font-weight: bold;
+    display: inline-block;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    color: var(--color-secondary);
+    line-height: 1;
+    text-decoration: none;
+    user-select: none;
+    padding: var(--space) calc(var(--space) * 2) calc(var(--space) + var(--border-size) / 2);
+    transform: translateY(100%);
+}
+
+.main-content {
+    margin: 6rem auto;
+    max-width: 70ch;
+    padding: 0 calc(var(--space) * 2);
+    transform: translateX(0);
+    transition: transform calc(var(--nav-duration) * 2) var(--ease);
+}
+.main-content > * + * {
+    margin-top: calc(var(--space) * var(--line-height));
+}
+
+.main-navigation-toggle:checked ~ label .icon--menu-toggle .icon-group {
+    transform: translateX(100%);
+}
+.main-navigation-toggle:checked ~ .main-content {
+    transform: translateX(10%);
+}
+.main-navigation-toggle:checked ~ .main-navigation {
+    transition-duration: 0s;
+    transform: translateX(0);
+}
+.main-navigation-toggle:checked ~ .main-navigation:after {
+    animation: nav-bg var(--nav-duration) var(--ease) forwards;
+}
+.main-navigation-toggle:checked ~ .main-navigation li:after {
+    animation: nav-line var(--duration) var(--ease) forwards;
+}
+.main-navigation-toggle:checked ~ .main-navigation a {
+    animation: link-appear calc(var(--duration) * 1.5) var(--ease) forwards;
+}
+.main-navigation-toggle:checked ~ .main-navigation li:nth-child(1):after, .main-navigation-toggle:checked ~ .main-navigation li:nth-child(1) a {
+    animation-delay: calc((var(--duration) / 2) * 1 * 0.125);
+}
+.main-navigation-toggle:checked ~ .main-navigation li:nth-child(2):after, .main-navigation-toggle:checked ~ .main-navigation li:nth-child(2) a {
+    animation-delay: calc((var(--duration) / 2) * 2 * 0.125);
+}
+.main-navigation-toggle:checked ~ .main-navigation li:nth-child(3):after, .main-navigation-toggle:checked ~ .main-navigation li:nth-child(3) a {
+    animation-delay: calc((var(--duration) / 2) * 3 * 0.125);
+}
+.main-navigation-toggle:checked ~ .main-navigation li:nth-child(4):after, .main-navigation-toggle:checked ~ .main-navigation li:nth-child(4) a {
+    animation-delay: calc((var(--duration) / 2) * 4 * 0.125);
+}
+
+@keyframes nav-bg {
+    from {
+        transform: translateX(-100%) skewX(-15deg);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+@keyframes nav-line {
+    0% {
+        transform: scaleX(0);
+        transform-origin: 0 50%;
+    }
+    35% {
+        transform: scaleX(1.001);
+        transform-origin: 0 50%;
+    }
+    65% {
+        transform: scaleX(1.001);
+        transform-origin: 100% 50%;
+    }
+    100% {
+        transform: scaleX(0);
+        transform-origin: 100% 50%;
+    }
+}
+@keyframes link-appear {
+    0%, 25% {
+        transform: translateY(100%);
+    }
+    50%, 100% {
+        transform: translateY(0);
     }
 }

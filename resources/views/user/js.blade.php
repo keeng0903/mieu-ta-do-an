@@ -179,4 +179,5 @@
         // $('.load').delay(1000).fadeOut('fast');
         $('.loader').delay(1000).fadeOut('fast');
     });
+
 </script>

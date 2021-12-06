@@ -49,7 +49,7 @@ class AuthController extends Controller
         Session()->put('user', NULL);
         Session()->put('user_id', NULL);
         Session()->put('name_user', NULL);
-        return redirect('/home');
+        return redirect('/home')->with('status','Đăng xuất thành công!');
     }
 
     /**

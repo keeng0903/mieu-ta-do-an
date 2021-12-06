@@ -8,12 +8,20 @@
 
 <script src="{{asset('frontend/js/jquery-2.1.4.js')}}"></script>
 <script src="{{asset('frontend/js/main.js')}}"></script> <!-- Resource jQuery -->
+{{--swal--}}
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
     $(window).on('load', function(event) {
         $('body').removeClass('preloading');
         // $('.load').delay(1000).fadeOut('fast');
         $('.loader').delay(1000).fadeOut('fast');
     });
+    function swalMessageNotButton(message) {
+        swal(message, {
+            buttons: false,
+            timer: 2000
+        });
+    }
 </script>
 
 {{--camera--}}
@@ -104,28 +112,40 @@
 
 <script>
     {{--script camera--}}
-    $(document).ready(function (){
-        $('#label-container').keyup(function () {
-            var query = $(this).val();
+    $(document).ready(function () {
+        $('#button-search').on('click', function () {
+            var query = document.forms["form-camera"]["word"].value;
 
             if (query != '') {
 
                 var _token = $('input[name="_token"]').val();
+
                 $.ajax({
-                    url: "{{ route('home.result_search_camera') }}",
-                    method: "GET",
-                    data: {query: query, _token: _token},
-                    success: function (data) {
-                        $('#result_search_camera').fadeIn();
-                        $('#result_search_camera').html(data);
+                    type: "GET",
+                    url: "{{ route('home.result_camera') }}",
+                    data: {query: query, _token:_token},
+                    success: function (data_camera) {
+                        if (data_camera) {
+                            $('#detail-camera').fadeIn();
+                            $('#detail-camera').html(data_camera);
+                        } else {
+                            swalMessageNotButton("Không tìm thấy từ")
+                        }
                     }
                 });
-            }else{
-                $('#result_search_camera').hide();
             }
+            return false;
         });
-
 
     });
 
 </script>
+
+@if (session('status'))
+    <script>
+        swal("{{ session('status') }}", {
+            button: false,
+            timer: 2000
+        });
+    </script>
+@endif

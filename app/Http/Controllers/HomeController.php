@@ -15,8 +15,8 @@ class HomeController extends Controller
         $data['option_languages'] = $lang;
         $data['randomEns'] = DB::table('languages')
             ->inRandomOrder()
-            ->limit(6)
-            ->get('en');
+            ->limit(8)
+            ->get();
         return view('engkids.homeTranslate', $data);
     }
 
@@ -134,6 +134,27 @@ class HomeController extends Controller
     /**
      * @param Request $request
      */
+    public function input_lang(Request $request)
+    {
+        if ($request->get('type_language')) {
+            $type = $request->get('type_language');
+            $lang_type = DB::table('type_languages')
+                ->get();
+            $output = '';
+            foreach ($lang_type as $row) {
+                $selected = '';
+                if ($row->type == $type){
+                    $selected = 'selected';
+                }
+                $output .= '<option value="' . $row->type . '" '.$selected.' >' . $row->name . '</option>';
+            }
+            echo $output;
+        }
+    }
+
+    /**
+     * @param Request $request
+     */
     public function lang_details(Request $request)
     {
         if ($request->get('lang_translated')) {
@@ -152,7 +173,7 @@ class HomeController extends Controller
                 ->where('type_description', "{$type_output}")
                 ->get();
 
-            $output = '<div class="form-control" >
+            $output = '<div class="form-group" id="lang_details" style="padding: 5px;"><div class="form-control" >
                             <h4 style="float: left">Bản dịch từ : <i>' . $type . '</i></h4>
                         </div>';
             $output .= '<div class="form-control" style="display: table">';
@@ -163,11 +184,11 @@ class HomeController extends Controller
             }
             $output .= '</div><div class="form-control" style="display: table">';
             foreach ($descriptions as $description) {
-                $output .= '<h4>'.$description->title.' : </h4>
+                $output .= '<h4 style="font-weight: bold">'.$description->title.' : </h4>
                             <p class="text-color"> '.$description->short_description.'</p>
                             <i class="text-color">'.$description->description.'</i>';
             }
-            $output .='</div>';
+            $output .='</div></div>';
             echo $output;
         }
     }
@@ -215,6 +236,34 @@ class HomeController extends Controller
                         </div>';
             }
             echo $output;
+        }
+    }
+
+    /**
+     * @param Request $request
+     */
+    public function suggestion_input(Request $request)
+    {
+        if ($request->language_id) {
+            $language_id = $request->language_id;
+            $language = DB::table('languages')
+                ->where('language_id', $language_id)
+                ->first();
+            echo $language->en;
+        }
+    }
+
+    /**
+     * @param Request $request
+     */
+    public function suggestion_output(Request $request)
+    {
+        if ($request->language_id) {
+            $language_id = $request->language_id;
+            $language = DB::table('languages')
+                ->where('language_id', $language_id)
+                ->first();
+            echo $language->vn;
         }
     }
 }

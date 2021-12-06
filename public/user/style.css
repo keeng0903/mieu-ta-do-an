@@ -52,10 +52,15 @@ a {
 	margin: 15px 0;
 }
 
+#submit-register{
+    background: #3a6186;
+}
+#submit-login{
+    background: #89253e;
+}
 button {
 	border-radius: 20px;
-	border: 1px solid #FF4B2B;
-	background-color: #FF4B2B;
+	border: 1px solid;
 	color: #FFFFFF;
 	font-size: 12px;
 	font-weight: bold;
@@ -90,7 +95,13 @@ form {
 }
 
 input {
-	background-color: #eee;
+    border: 2px solid;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    border-radius: 10px;
+	background-color: #C0C0C0;
 	border: none;
 	padding: 12px 15px;
 	margin: 8px 0;

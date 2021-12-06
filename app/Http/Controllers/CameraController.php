@@ -18,22 +18,35 @@ class CameraController extends Controller
     /**
      * @param Request $request
      */
-    public function result_search_camera(Request $request)
+    public function result_camera(Request $request)
     {
         if ($request->get('query')) {
             $query = $request->get('query');
 
-            $data = DB::table('languages')
+            $language = DB::table('languages')
                 ->Where('en', 'LIKE', "%{$query}%")
-                ->limit(5)
-                ->orderByRaw('language_id')
-                ->get();
-            $output = '<ul class="dropdown-menu" style="display:block;">';
-            foreach ($data as $row) {
-                $output .= '<li style="width: 600px;font-size: large"><a href="#">' . $row->en . '</a></li>';
+                ->first();
+
+            if ($language->language_id) {
+                $language_descriptions = DB::table('language_descriptions')
+                    ->Where('language_id', $language->language_id)
+                    ->where('type_description', "vn")
+                    ->get();
+                $output = '<div class="form-control">';
+                $output .= '<h3>Dịch từ : <i>' . $language->en . ' -> ' . $language->vn . '</i></h3>';
+                $output .= '</div>';
+                if ($language_descriptions){
+                    $output .= '<div class="form-control" style="display: table">';
+
+                    foreach ($language_descriptions as $language_description){
+                        $output .='<h4>' . $language_description->title . '</h4>
+                            <p class="text-color">'. $language_description->short_description .'</p>
+                            <i class="text-color">'. $language_description->description .'</i>';
+                    }
+                    $output.= '</div>';
+                }
+                echo $output;
             }
-            $output .= '</ul>';
-            echo $output;
         }
     }
 }
