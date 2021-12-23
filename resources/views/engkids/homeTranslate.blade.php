@@ -120,6 +120,9 @@
                                 success: function (data_translated) {
                                     $('#translated').fadeIn();
                                     $('#translated').html(data_translated);
+                                    $('#show-details').hide();
+                                    $('#btn-details').show();
+                                    $('#btn-hide-details').hide();
                                 }
                             });
                         }

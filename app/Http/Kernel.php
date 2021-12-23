@@ -55,6 +55,7 @@ class Kernel extends HttpKernel
         'auth' => \App\Http\Middleware\Authenticate::class,
         'check_login_admin' => \App\Http\Middleware\CheckLoginAdmin::class,
         'check_login_user' => \App\Http\Middleware\CheckLoginUser::class,
+        'check_not_login' => \App\Http\Middleware\CheckNotUserLogin::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,

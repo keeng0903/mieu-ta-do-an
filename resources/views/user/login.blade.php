@@ -29,7 +29,7 @@
                 <span>or use your account</span>
                 <input type="email" name="email" placeholder="Email"/>
                 <input type="password" name="password" placeholder="Password"/>
-                <a href="#">Bạn quên mật khẩu ?</a>
+                <a href="{{route('guest.forgot-account')}}">Bạn quên mật khẩu ?</a>
                 <button type="submit" id="submit-login">Đăng Nhập</button>
             </form>
         </div>

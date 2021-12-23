@@ -93,3 +93,10 @@ Route::group(['middleware' => ['check_login_user'], 'as' => 'user.', 'prefix' =>
     Route::GET('/history', [UserController::class, 'history'])->name('history');
 
 });
+
+Route::group(['middleware' => ['check_not_login'], 'as' => 'guest.','prefix' => 'guest'], function () {
+    Route::get('/forgot-account', [UserController::class, 'forgot_account'])->name('forgot-account');
+    Route::get('/otp-account', [UserController::class, 'otp_account'])->name('otp-account');
+    Route::get('/change-password', [UserController::class, 'change_password'])->name('change-password');
+
+});
