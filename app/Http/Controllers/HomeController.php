@@ -31,7 +31,7 @@ class HomeController extends Controller
 
             $data = DB::table('languages')
                 ->Where("{$type}", 'LIKE', "%{$query}%")
-                ->limit(5)
+                ->limit(10)
                 ->orderByRaw('language_id')
                 ->get();
             $output = '<ul class="dropdown-menu" style="display:block; position:relative">';
