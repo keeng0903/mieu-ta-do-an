@@ -68,34 +68,51 @@
                             @foreach($language_descriptions as $key => $language_description)
                                 @if(!$language_description) <?php $clickCount = null ?> @endif
                                 <div class="card-body" id="show-update-{{$key}}">
-                                    <div class="form-group">
-                                        <label for="inputName">{{ $clickCount = $key }} - Tiêu đề</label>
-                                        <input type="text" id="titleEn" name="lang[{{$key}}][title]" class="form-control"
-                                               value="{{$language_description->title}}">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="inputDescription">Mô tả ngắn</label>
-                                        <textarea id="shortDescription" name="lang[{{$key}}][short_description]"
-                                                  class="form-control" rows="4">{{$language_description->short_description}}</textarea>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="inputDescription">Mô tả</label>
-                                        <textarea id="description" name="lang[{{$key}}][description]" class="form-control"
-                                                  rows="4">{{$language_description->description}}</textarea>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="form-check">
-                                            <input class="form-check-input" name="lang[{{$key}}][type_description]" value="en" @if($language_description->type_description == TYPE_ENGLISH)checked @endif type="radio">
-                                            <label class="form-check-label">(mô tả) English</label>
+                                    <div id="{{$key}}">
+                                        <div class="form-group">
+                                            <label for="inputName">{{ $clickCount = $key }} - Tiêu đề</label>
+                                            <input type="text" id="titleEn" name="lang[{{$key}}][title]"
+                                                   class="form-control"
+                                                   value="{{$language_description->title}}">
                                         </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" name="lang[{{$key}}][type_description]" value="vn" @if($language_description->type_description == TYPE_VIETNAMESE)checked @endif type="radio">
-                                            <label class="form-check-label">(mô tả) Vietnamese</label>
+                                        <div class="form-group">
+                                            <label for="inputDescription">Mô tả ngắn</label>
+                                            <textarea id="shortDescription" name="lang[{{$key}}][short_description]"
+                                                      class="form-control"
+                                                      rows="4">{{$language_description->short_description}}</textarea>
                                         </div>
+                                        <div class="form-group">
+                                            <label for="inputDescription">Mô tả</label>
+                                            <textarea id="description" name="lang[{{$key}}][description]"
+                                                      class="form-control"
+                                                      rows="4">{{$language_description->description}}</textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="form-check">
+                                                <input class="form-check-input" name="lang[{{$key}}][type_description]"
+                                                       value="en"
+                                                       @if($language_description->type_description == TYPE_ENGLISH)checked
+                                                       @endif type="radio">
+                                                <label class="form-check-label">(mô tả) English</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" name="lang[{{$key}}][type_description]"
+                                                       value="vn"
+                                                       @if($language_description->type_description == TYPE_VIETNAMESE)checked
+                                                       @endif type="radio">
+                                                <label class="form-check-label">(mô tả) Vietnamese</label>
+                                            </div>
+                                        </div>
+                                        <input type="button" class="btn btn-danger float-right" value="-"
+                                               onclick="removeOptionUpdate({{$key}})">
                                     </div>
-                                    <input type="button" class="btn btn-danger float-right" value="-" onclick="removeOptionUpdate({{$key}})">
                                 </div>
                             @endforeach
+                            @if($language_descriptions)
+                                @for($i = count($language_descriptions); $i < 20-count($language_descriptions);$i++)
+                                    <div class="card-body" style="display: none" id="show-update-{{$i}}"></div>
+                                @endfor
+                            @endif
                         </div>
 
                         <div class="card card-primary">

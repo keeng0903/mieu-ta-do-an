@@ -55,8 +55,8 @@ class AdminLangController extends Controller
                         'language_description_id' => null,
                         'language_id' => $id,
                         'title' => $lang['title'],
-                        'short_description' => $lang['short_description'],
-                        'description' => $lang['description'],
+                        'short_description' => !empty($lang['short_description']) ? $lang['short_description'] : ' ',
+                        'description' => !empty($lang['description']) ? $lang['description'] : ' ',
                         'type_description' => $lang['type_description'],
                     ];
                     DB::table('language_descriptions')
@@ -110,41 +110,39 @@ class AdminLangController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            $deleted = DB::table('language_descriptions')
+            DB::table('language_descriptions')
                 ->where('language_id', $id)
                 ->delete();
-            if ($deleted) {
-                $lang = [
-                    'vn' => $request->vn,
-                    'en' => $request->en,
-                    'updated_at' => date("Y-m-d H:i:s"),
-                ];
 
-                $updated = DB::table('languages')
-                    ->where('language_id', $id)
-                    ->update($lang);
+            $lang = [
+                'vn' => $request->vn,
+                'en' => $request->en,
+                'updated_at' => date("Y-m-d H:i:s"),
+            ];
 
-                if ($updated && $request->lang) {
-                    foreach ($request->lang as $lang) {
-                        $lang_des[] = null;
-                        if ($lang['title']) {
-                            $lang_des = [
-                                'language_description_id' => null,
-                                'language_id' => $id,
-                                'title' => $lang['title'],
-                                'short_description' => $lang['short_description'],
-                                'description' => $lang['description'],
-                                'type_description' => $lang['type_description'],
-                            ];
-                            DB::table('language_descriptions')
-                                ->insert($lang_des);
-                        }
+            DB::table('languages')
+                ->where('language_id', $id)
+                ->update($lang);
+
+            if ($request->lang) {
+                foreach ($request->lang as $lang) {
+                    if ($lang['title']) {
+                        $lang_des = [
+                            'language_description_id' => null,
+                            'language_id' => $id,
+                            'title' => $lang['title'],
+                            'short_description' => !empty($lang['short_description']) ? $lang['short_description'] : ' ',
+                            'description' => !empty($lang['description']) ? $lang['description'] : ' ',
+                            'type_description' => $lang['type_description'],
+                        ];
+                        DB::table('language_descriptions')
+                            ->insert($lang_des);
                     }
-                    return back()
-                        ->with('status', 'Cập nhật thành công! Bạn muốn sang danh sách ?')
-                        ->with('url', route('admin.lang.list'));
                 }
             }
+            return back()
+                ->with('status', 'Cập nhật thành công! Bạn muốn sang danh sách ?')
+                ->with('url', route('admin.lang.list'));
         } catch (\Exception $exception) {
             return back()->with('status', 'Lỗi không thể cập nhật');
         }

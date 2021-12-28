@@ -24,7 +24,7 @@
             <li><a href="{{route('user.login')}}">Đăng Nhập</a></li>
         @endif
         <li><a href="{{route('user.history')}}">Lịch Sử</a></li>
-        <li><a href="{{route('home.camera')}}">Camera</a></li>
+        <li><a href="{{route('home.camera')}}">Translate</a></li>
         <li><a href="{{route('admin.login')}}">Login Admin</a></li>
     </ul>
 </nav>

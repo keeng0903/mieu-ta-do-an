@@ -21,9 +21,11 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::GET('/', [CameraController::class, 'camera'])->name('home');
+Route::GET('/home', [CameraController::class, 'camera'])->name('home');
 
-Route::GET('/', [HomeController::class, 'index'])->name('home');
-Route::GET('/home', [HomeController::class, 'index'])->name('home');
+//Route::GET('/', [HomeController::class, 'index'])->name('home');
+//Route::GET('/home', [HomeController::class, 'index'])->name('home');
 
 Route::group(['as' => 'home.', 'prefix' => 'home'], function () {
     Route::GET('/result_search', [HomeController::class, 'result_search'])->name('result_search');
@@ -39,7 +41,7 @@ Route::group(['as' => 'home.', 'prefix' => 'home'], function () {
 
     Route::GET('/histories', [HomeController::class, 'histories'])->name('histories');
 //    camera
-    Route::GET('/camera', [CameraController::class, 'camera'])->name('camera');
+    Route::GET('/camera', [HomeController::class, 'index'])->name('camera');
     Route::GET('/result_camera', [CameraController::class, 'result_camera'])->name('result_camera');
 
 });
